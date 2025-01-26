@@ -7,6 +7,9 @@ const mongoConnect = require('./db/connect')
 
 app.use(express.json())
 
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'huh' })
+})
 app.use('/words', wordRouter)
 
 app.listen(port, async () => {
