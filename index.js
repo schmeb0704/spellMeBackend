@@ -8,11 +8,13 @@ const cors = require('cors')
 
 const allowedOrigins = [
   'http://localhost:5173', // Frontend dev environment URL
-  'https://spellme.netlify.app/',
+  'https://spellme.netlify.app',
 ]
 
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log('origin: ', origin)
+
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true)
     } else {
