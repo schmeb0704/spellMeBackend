@@ -9,11 +9,25 @@ class WordRepository {
 
   async getRandomWord(level) {
     const convertedToNum = +level
-    const word = this.model.aggregate([
-      {$match: {difficulty: convertedToNum}},
-      {$sample: {size: 1}}
-    ])
-    return word
+    console.log(convertedToNum)
+
+    try {
+      const count = await this.model.countDocuments({
+        difficulty: convertedToNum,
+      })
+      if (count === 0) return null
+
+      const random = Math.floor(Math.random() * count)
+      const word = await this.model
+        .findOne({ difficulty: convertedToNum })
+        .skip(random)
+      console.log(word)
+
+      return word
+    } catch (error) {
+      console.error('Error fetching random document:', error)
+      throw error
+    }
   }
 
   async createWord(data) {
